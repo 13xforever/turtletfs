@@ -21,10 +21,10 @@ namespace TsvnTfsProvider
 
 		public string GetCommitMessage(IntPtr hParentWnd, string parameters, string commonRoot, string[] pathList, string originalMessage)
 		{
-			var form = new IssuesBrowser();
+			var form = new IssuesBrowser(originalMessage);
 			if (form.ShowDialog() != DialogResult.OK) return originalMessage;
 
-			var result = new StringBuilder(originalMessage);
+			var result = new StringBuilder(form.Comment);
 			if (originalMessage.Length != 0 && !originalMessage.EndsWith("\n")) result.AppendLine();
 
 			foreach (var workItem in form.AssociatedWorkItems)

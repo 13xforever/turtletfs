@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsProvider", "TfsProvider\TfsProvider.csproj", "{D59E5892-B24E-49A2-9A20-91E3A98AF7D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHost", "TestHost\TestHost.csproj", "{A99F73B5-31C6-40DC-BCEF-80F39D375D4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{D59E5892-B24E-49A2-9A20-91E3A98AF7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D59E5892-B24E-49A2-9A20-91E3A98AF7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D59E5892-B24E-49A2-9A20-91E3A98AF7D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A99F73B5-31C6-40DC-BCEF-80F39D375D4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A99F73B5-31C6-40DC-BCEF-80F39D375D4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A99F73B5-31C6-40DC-BCEF-80F39D375D4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A99F73B5-31C6-40DC-BCEF-80F39D375D4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

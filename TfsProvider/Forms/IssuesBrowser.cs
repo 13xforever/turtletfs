@@ -1,45 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Microsoft.TeamFoundation.Client;
+using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
 namespace TsvnTfsProvider
 {
 	public partial class IssuesBrowser: Form
 	{
-		private readonly List<WorkItem> associatedWorkItems = new List<WorkItem>();
-		private readonly IEnumerable<WorkItem> workItems;
+		private readonly List<MyWorkItem> associatedWorkItems = new List<MyWorkItem>();
+		private readonly string projectName;
+		private readonly string serverName;
+		private TeamFoundationServer tfs;
+		private WorkItemStore workItemStore;
 
-		public IssuesBrowser()
+		public IssuesBrowser(string comment)
 		{
 			InitializeComponent();
-			workItems = GetWorkItems();
+			Comment = comment;
+			serverName = "http://lit-department:8080/";
+			projectName = "TrustPortal";
 		}
 
-		private static IEnumerable<WorkItem> GetWorkItems()
+		public string Comment
 		{
-			var myWorkItems = new List<WorkItem>()
-			                  	{
-			                  		new WorkItem() {type="bug", id = 1, title="some nasty bug"},
-									new WorkItem() {type = "issue", id =2, title = "надо что-то сделать"}
-			                  	};
-			
-			// calling TFS
-			
-			return myWorkItems;
+			get { return commentBox.Text; }
+			private set { commentBox.Text = value; }
 		}
 
-		public IEnumerable<WorkItem> AssociatedWorkItems
+		public IEnumerable<MyWorkItem> AssociatedWorkItems
 		{
 			get { return associatedWorkItems; }
 		}
 
+		private void ConnectToTfs()
+		{
+			tfs = TeamFoundationServerFactory.GetServer(serverName);
+			tfs.EnsureAuthenticated();
+			workItemStore = (WorkItemStore)tfs.GetService(typeof (WorkItemStore));
+		}
+
+		private IEnumerable<MyWorkItem> GetWorkItems(TfsQuery query)
+		{
+			var myWorkItems = new List<MyWorkItem>();
+
+			WorkItemCollection wiCollection = workItemStore.Query(query.Query.QueryText);
+
+			foreach (WorkItem workItem in wiCollection)
+				myWorkItems.Add(new MyWorkItem(){id = workItem.Id, state = workItem.State, title = workItem.Title, type = workItem.Type.Name});
+
+			return myWorkItems;
+		}
+
+		private void PopulateQueriesComboBox()
+		{
+			Project project = workItemStore.Projects[projectName];
+			StoredQueryCollection storedQueries = project.StoredQueries;
+			foreach (StoredQuery query in storedQueries)
+				queryComboBox.Items.Add(new TfsQuery(query));
+			if (queryComboBox.Items.Count > 0)
+				queryComboBox.SelectedIndex = 0;
+			else
+				queryRunButton.Enabled = false;
+		}
+
 		private void MyIssuesForm_Load(object sender, EventArgs e)
 		{
-			listViewIssues.Columns.Add("");
-			listViewIssues.Columns.Add("Type");
-			listViewIssues.Columns.Add("ID");
-			listViewIssues.Columns.Add("Title");
+			ConnectToTfs();
 
+			PopulateQueriesComboBox();
+			PopulateWorkItemsList();
+		}
+
+		private void PopulateWorkItemsList()
+		{
+			IEnumerable<MyWorkItem> workItems = GetWorkItems((TfsQuery)queryComboBox.SelectedItem);
 			foreach (var workItem in workItems)
 			{
 				var lvi = new ListViewItem
@@ -49,6 +84,7 @@ namespace TsvnTfsProvider
 				          	};
 				lvi.SubItems.Add(workItem.type);
 				lvi.SubItems.Add(workItem.id.ToString());
+				lvi.SubItems.Add(workItem.state);
 				lvi.SubItems.Add(workItem.title);
 				listViewIssues.Items.Add(lvi);
 			}
@@ -57,19 +93,43 @@ namespace TsvnTfsProvider
 			listViewIssues.Columns[1].Width = -1;
 			listViewIssues.Columns[2].Width = -1;
 			listViewIssues.Columns[3].Width = -1;
+			listViewIssues.Columns[4].Width = -1;
 		}
 
 		private void okButton_Click(object sender, EventArgs e)
 		{
 			foreach (ListViewItem lvi in listViewIssues.Items)
-				if (lvi.Checked) associatedWorkItems.Add((WorkItem)lvi.Tag);
+				if (lvi.Checked) associatedWorkItems.Add((MyWorkItem)lvi.Tag);
+		}
+
+		private void queryRunButton_Click(object sender, EventArgs e)
+		{
+			PopulateWorkItemsList();
 		}
 	}
 
-	public struct WorkItem
+	internal class TfsQuery
 	{
-		public string type;
+		public TfsQuery(StoredQuery query)
+		{
+			Query = query;
+			Name = query.Name;
+		}
+
+		private string Name { get; set; }
+		public StoredQuery Query { get; private set; }
+
+		public override string ToString()
+		{
+			return Name;
+		}
+	}
+
+	public struct MyWorkItem
+	{
 		public int id;
+		public string state;
 		public string title;
+		public string type;
 	}
 }
