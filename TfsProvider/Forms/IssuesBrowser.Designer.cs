@@ -31,17 +31,16 @@
 			this.buttonOk = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.listViewIssues = new System.Windows.Forms.ListView();
+			this.checkBoxColumn = new System.Windows.Forms.ColumnHeader();
+			this.typeColumn = new System.Windows.Forms.ColumnHeader();
+			this.idColumn = new System.Windows.Forms.ColumnHeader();
+			this.stateColumn = new System.Windows.Forms.ColumnHeader();
+			this.titleColumn = new System.Windows.Forms.ColumnHeader();
 			this.commentBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.queryComboBox = new System.Windows.Forms.ComboBox();
-			this.queryRunButton = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
-			this.checkBoxColumn = new System.Windows.Forms.ColumnHeader();
-			this.idColumn = new System.Windows.Forms.ColumnHeader();
-			this.typeColumn = new System.Windows.Forms.ColumnHeader();
-			this.stateColumn = new System.Windows.Forms.ColumnHeader();
-			this.titleColumn = new System.Windows.Forms.ColumnHeader();
 			this.SuspendLayout();
 			// 
 			// buttonOk
@@ -82,10 +81,38 @@
 			this.listViewIssues.FullRowSelect = true;
 			this.listViewIssues.Location = new System.Drawing.Point(12, 53);
 			this.listViewIssues.Name = "listViewIssues";
-			this.listViewIssues.Size = new System.Drawing.Size(799, 286);
+			this.listViewIssues.Size = new System.Drawing.Size(795, 286);
 			this.listViewIssues.TabIndex = 2;
 			this.listViewIssues.UseCompatibleStateImageBehavior = false;
 			this.listViewIssues.View = System.Windows.Forms.View.Details;
+			this.listViewIssues.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewIssues_ColumnClick);
+			// 
+			// checkBoxColumn
+			// 
+			this.checkBoxColumn.Text = "";
+			this.checkBoxColumn.Width = 23;
+			// 
+			// typeColumn
+			// 
+			this.typeColumn.DisplayIndex = 2;
+			this.typeColumn.Text = "Type";
+			this.typeColumn.Width = 64;
+			// 
+			// idColumn
+			// 
+			this.idColumn.DisplayIndex = 1;
+			this.idColumn.Text = "ID";
+			this.idColumn.Width = 54;
+			// 
+			// stateColumn
+			// 
+			this.stateColumn.Text = "State";
+			this.stateColumn.Width = 102;
+			// 
+			// titleColumn
+			// 
+			this.titleColumn.Text = "Title";
+			this.titleColumn.Width = 527;
 			// 
 			// commentBox
 			// 
@@ -109,21 +136,15 @@
 			// 
 			// queryComboBox
 			// 
+			this.queryComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.queryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.queryComboBox.FormattingEnabled = true;
-			this.queryComboBox.Location = new System.Drawing.Point(58, 4);
+			this.queryComboBox.Location = new System.Drawing.Point(58, 10);
 			this.queryComboBox.Name = "queryComboBox";
-			this.queryComboBox.Size = new System.Drawing.Size(251, 21);
+			this.queryComboBox.Size = new System.Drawing.Size(749, 21);
 			this.queryComboBox.TabIndex = 5;
-			// 
-			// queryRunButton
-			// 
-			this.queryRunButton.Location = new System.Drawing.Point(316, 1);
-			this.queryRunButton.Name = "queryRunButton";
-			this.queryRunButton.Size = new System.Drawing.Size(75, 23);
-			this.queryRunButton.TabIndex = 6;
-			this.queryRunButton.Text = "Run";
-			this.queryRunButton.UseVisualStyleBackColor = true;
-			this.queryRunButton.Click += new System.EventHandler(this.queryRunButton_Click);
+			this.queryComboBox.SelectedValueChanged += new System.EventHandler(this.queryComboBox_SelectedValueChanged);
 			// 
 			// label2
 			// 
@@ -144,33 +165,6 @@
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Comment:";
 			// 
-			// checkBoxColumn
-			// 
-			this.checkBoxColumn.Text = "";
-			this.checkBoxColumn.Width = 23;
-			// 
-			// idColumn
-			// 
-			this.idColumn.DisplayIndex = 1;
-			this.idColumn.Text = "ID";
-			this.idColumn.Width = 54;
-			// 
-			// typeColumn
-			// 
-			this.typeColumn.DisplayIndex = 2;
-			this.typeColumn.Text = "Type";
-			this.typeColumn.Width = 64;
-			// 
-			// stateColumn
-			// 
-			this.stateColumn.Text = "State";
-			this.stateColumn.Width = 102;
-			// 
-			// titleColumn
-			// 
-			this.titleColumn.Text = "Title";
-			this.titleColumn.Width = 527;
-			// 
 			// IssuesBrowser
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -178,7 +172,6 @@
 			this.ClientSize = new System.Drawing.Size(819, 514);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.queryRunButton);
 			this.Controls.Add(this.queryComboBox);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.commentBox);
@@ -206,7 +199,6 @@
 		private System.Windows.Forms.TextBox commentBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox queryComboBox;
-		private System.Windows.Forms.Button queryRunButton;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.ColumnHeader checkBoxColumn;

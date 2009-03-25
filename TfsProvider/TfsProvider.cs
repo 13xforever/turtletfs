@@ -16,7 +16,7 @@ namespace TsvnTfsProvider
 
 		public string GetLinkText(IntPtr hParentWnd, string parameters)
 		{
-			return "Choose Issue";
+			return "Work Items";
 		}
 
 		public string GetCommitMessage(IntPtr hParentWnd, string parameters, string commonRoot, string[] pathList, string originalMessage)

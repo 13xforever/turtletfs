@@ -9,6 +9,7 @@ namespace TsvnTfsProvider
 	public partial class IssuesBrowser: Form
 	{
 		private readonly List<MyWorkItem> associatedWorkItems = new List<MyWorkItem>();
+		private readonly ListViewColumnSorter listViewColumnSorter;
 		private readonly string projectName;
 		private readonly string serverName;
 		private TeamFoundationServer tfs;
@@ -20,6 +21,18 @@ namespace TsvnTfsProvider
 			Comment = comment;
 			serverName = "http://lit-department:8080/";
 			projectName = "TrustPortal";
+
+			int idColumnIndex = 2;
+			foreach (ColumnHeader header in listViewIssues.Columns)
+			{
+				if (header.Name == "ID")
+				{
+					idColumnIndex = header.Index;
+					break;
+				}
+			}
+			listViewColumnSorter = new ListViewColumnSorter(idColumnIndex);
+			listViewIssues.ListViewItemSorter = listViewColumnSorter;
 		}
 
 		public string Comment
@@ -44,36 +57,34 @@ namespace TsvnTfsProvider
 		{
 			var myWorkItems = new List<MyWorkItem>();
 
-			WorkItemCollection wiCollection = workItemStore.Query(query.Query.QueryText);
+
+			var context = new Dictionary<string, string> {{"project", query.Query.Project.Name}};
+			WorkItemCollection wiCollection = workItemStore.Query(query.Query.QueryText, context);
 
 			foreach (WorkItem workItem in wiCollection)
-				myWorkItems.Add(new MyWorkItem(){id = workItem.Id, state = workItem.State, title = workItem.Title, type = workItem.Type.Name});
+				myWorkItems.Add(new MyWorkItem {id = workItem.Id, state = workItem.State, title = workItem.Title, type = workItem.Type.Name});
 
 			return myWorkItems;
 		}
 
-		private void PopulateQueriesComboBox()
+		private void PopulateQueriesComboBoxWithSavedQueries()
 		{
 			Project project = workItemStore.Projects[projectName];
 			StoredQueryCollection storedQueries = project.StoredQueries;
 			foreach (StoredQuery query in storedQueries)
 				queryComboBox.Items.Add(new TfsQuery(query));
-			if (queryComboBox.Items.Count > 0)
-				queryComboBox.SelectedIndex = 0;
-			else
-				queryRunButton.Enabled = false;
+			if (queryComboBox.Items.Count > 0) queryComboBox.SelectedIndex = 0;
 		}
 
 		private void MyIssuesForm_Load(object sender, EventArgs e)
 		{
 			ConnectToTfs();
-
-			PopulateQueriesComboBox();
-			PopulateWorkItemsList();
+			PopulateQueriesComboBoxWithSavedQueries();
 		}
 
 		private void PopulateWorkItemsList()
 		{
+			listViewIssues.Items.Clear();
 			IEnumerable<MyWorkItem> workItems = GetWorkItems((TfsQuery)queryComboBox.SelectedItem);
 			foreach (var workItem in workItems)
 			{
@@ -102,9 +113,21 @@ namespace TsvnTfsProvider
 				if (lvi.Checked) associatedWorkItems.Add((MyWorkItem)lvi.Tag);
 		}
 
-		private void queryRunButton_Click(object sender, EventArgs e)
+		private void queryComboBox_SelectedValueChanged(object sender, EventArgs e)
 		{
 			PopulateWorkItemsList();
+		}
+
+		private void listViewIssues_ColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			if (e.Column == listViewColumnSorter.SortColumn)
+				listViewColumnSorter.InvertOrder();
+			else
+			{
+				listViewColumnSorter.SortColumn = e.Column;
+				listViewColumnSorter.Order = SortOrder.Ascending;
+			}
+			listViewIssues.Sort();
 		}
 	}
 
