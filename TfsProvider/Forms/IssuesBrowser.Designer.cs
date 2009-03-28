@@ -1,4 +1,4 @@
-﻿namespace TsvnTfsProvider
+namespace TsvnTfsProvider.Forms
 {
 	partial class IssuesBrowser
 	{
@@ -69,15 +69,15 @@
 			// listViewIssues
 			// 
 			this.listViewIssues.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			                                                                    | System.Windows.Forms.AnchorStyles.Left)
+			                                                                   | System.Windows.Forms.AnchorStyles.Right)));
 			this.listViewIssues.CheckBoxes = true;
 			this.listViewIssues.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.checkBoxColumn,
-            this.typeColumn,
-            this.idColumn,
-            this.stateColumn,
-            this.titleColumn});
+			                                                                             	this.checkBoxColumn,
+			                                                                             	this.typeColumn,
+			                                                                             	this.idColumn,
+			                                                                             	this.stateColumn,
+			                                                                             	this.titleColumn});
 			this.listViewIssues.FullRowSelect = true;
 			this.listViewIssues.Location = new System.Drawing.Point(12, 53);
 			this.listViewIssues.Name = "listViewIssues";
@@ -118,7 +118,7 @@
 			// 
 			this.commentBox.AcceptsReturn = true;
 			this.commentBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			                                                               | System.Windows.Forms.AnchorStyles.Right)));
 			this.commentBox.Location = new System.Drawing.Point(12, 370);
 			this.commentBox.Multiline = true;
 			this.commentBox.Name = "commentBox";
@@ -137,7 +137,7 @@
 			// queryComboBox
 			// 
 			this.queryComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			                                                                  | System.Windows.Forms.AnchorStyles.Right)));
 			this.queryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.queryComboBox.FormattingEnabled = true;
 			this.queryComboBox.Location = new System.Drawing.Point(58, 10);

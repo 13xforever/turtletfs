@@ -4,23 +4,21 @@ using System.Windows.Forms;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
-namespace TsvnTfsProvider
+namespace TsvnTfsProvider.Forms
 {
-	public partial class IssuesBrowser: Form
+	public partial class IssuesBrowser : Form
 	{
 		private readonly List<MyWorkItem> associatedWorkItems = new List<MyWorkItem>();
 		private readonly ListViewColumnSorter listViewColumnSorter;
-		private readonly string projectName;
-		private readonly string serverName;
+		private readonly TfsProviderOptions options;
 		private TeamFoundationServer tfs;
 		private WorkItemStore workItemStore;
 
-		public IssuesBrowser(string comment)
+		public IssuesBrowser(string parameters, string comment)
 		{
 			InitializeComponent();
 			Comment = comment;
-			serverName = "http://lit-department:8080/";
-			projectName = "TrustPortal";
+			options = TfsOptionsSerializer.Deserialize(parameters);
 
 			int idColumnIndex = 2;
 			foreach (ColumnHeader header in listViewIssues.Columns)
@@ -35,41 +33,30 @@ namespace TsvnTfsProvider
 			listViewIssues.ListViewItemSorter = listViewColumnSorter;
 		}
 
-		public string Comment
-		{
-			get { return commentBox.Text; }
-			private set { commentBox.Text = value; }
-		}
+		public string Comment { get { return commentBox.Text; } private set { commentBox.Text = value; } }
 
-		public IEnumerable<MyWorkItem> AssociatedWorkItems
-		{
-			get { return associatedWorkItems; }
-		}
+		public IEnumerable<MyWorkItem> AssociatedWorkItems { get { return associatedWorkItems; } }
 
 		private void ConnectToTfs()
 		{
-			tfs = TeamFoundationServerFactory.GetServer(serverName);
+			tfs = TeamFoundationServerFactory.GetServer(options.ServerName);
 			tfs.EnsureAuthenticated();
-			workItemStore = (WorkItemStore)tfs.GetService(typeof (WorkItemStore));
+			workItemStore = (WorkItemStore) tfs.GetService(typeof (WorkItemStore));
 		}
 
 		private IEnumerable<MyWorkItem> GetWorkItems(TfsQuery query)
 		{
 			var myWorkItems = new List<MyWorkItem>();
-
-
 			var context = new Dictionary<string, string> {{"project", query.Query.Project.Name}};
 			WorkItemCollection wiCollection = workItemStore.Query(query.Query.QueryText, context);
-
 			foreach (WorkItem workItem in wiCollection)
 				myWorkItems.Add(new MyWorkItem {id = workItem.Id, state = workItem.State, title = workItem.Title, type = workItem.Type.Name});
-
 			return myWorkItems;
 		}
 
 		private void PopulateQueriesComboBoxWithSavedQueries()
 		{
-			Project project = workItemStore.Projects[projectName];
+			Project project = workItemStore.Projects[options.ProjectName];
 			StoredQueryCollection storedQueries = project.StoredQueries;
 			foreach (StoredQuery query in storedQueries)
 				queryComboBox.Items.Add(new TfsQuery(query));
@@ -85,32 +72,23 @@ namespace TsvnTfsProvider
 		private void PopulateWorkItemsList()
 		{
 			listViewIssues.Items.Clear();
-			IEnumerable<MyWorkItem> workItems = GetWorkItems((TfsQuery)queryComboBox.SelectedItem);
+			IEnumerable<MyWorkItem> workItems = GetWorkItems((TfsQuery) queryComboBox.SelectedItem);
 			foreach (var workItem in workItems)
 			{
-				var lvi = new ListViewItem
-				          	{
-				          		Text = "",
-				          		Tag = workItem,
-				          	};
+				var lvi = new ListViewItem {Text = "", Tag = workItem,};
 				lvi.SubItems.Add(workItem.type);
 				lvi.SubItems.Add(workItem.id.ToString());
 				lvi.SubItems.Add(workItem.state);
 				lvi.SubItems.Add(workItem.title);
 				listViewIssues.Items.Add(lvi);
 			}
-
-			listViewIssues.Columns[0].Width = -1;
-			listViewIssues.Columns[1].Width = -1;
-			listViewIssues.Columns[2].Width = -1;
-			listViewIssues.Columns[3].Width = -1;
-			listViewIssues.Columns[4].Width = -1;
+			foreach (ColumnHeader column in listViewIssues.Columns) column.Width = -1;
 		}
 
 		private void okButton_Click(object sender, EventArgs e)
 		{
 			foreach (ListViewItem lvi in listViewIssues.Items)
-				if (lvi.Checked) associatedWorkItems.Add((MyWorkItem)lvi.Tag);
+				if (lvi.Checked) associatedWorkItems.Add((MyWorkItem) lvi.Tag);
 		}
 
 		private void queryComboBox_SelectedValueChanged(object sender, EventArgs e)

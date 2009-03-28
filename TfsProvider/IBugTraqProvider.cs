@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Interop.BugTraqProvider
@@ -7,11 +7,11 @@ namespace Interop.BugTraqProvider
 	public interface IBugTraqProvider
 	{
 		///	<summary>
-		/// <para>A provider might need some parameters (e.g. a web service URL or a database connection string).
+		/// <para>A provider might need some Parameters (e.g. a web service URL or a database connection string).
 		///	This information is passed as a simple string. It's up to the individual provider to parse and
 		///	validate it.</para>
 		///	<para>The <c>ValidateParameters</c> method is called from the settings dialog. This allows the provider to check
-		///	that the parameters are OK. The provider can do basic syntax checking, it can check that the server
+		///	that the Parameters are OK. The provider can do basic syntax checking, it can check that the server
 		///	is reachable, or it can do nothing.</para>
 		///	<para>If the provider needs to report a validation error, it should do this itself, using <paramref name="hParentWnd"/> as
 		///	the parent of any displayed UI.</para>
@@ -147,11 +147,11 @@ namespace Interop.BugTraqProvider
 		/// <summary>
 		/// This method is called if HasOptions() returned true before.
 		/// Use this to show a custom dialog so the user doesn't have to
-		/// create the parameters string manually
+		/// create the Parameters string manually
 		/// </summary>
 		/// <param name="hParentWnd">Parent window for the options dialog</param>
 		/// <param name="parameters">Parameters for your provider.</param>
-		/// <returns>The parameters string</returns>
+		/// <returns>The Parameters string</returns>
 		[return: MarshalAs(UnmanagedType.BStr)]
 		string ShowOptionsDialog(IntPtr hParentWnd,[MarshalAs(UnmanagedType.BStr)] string parameters);
 	}

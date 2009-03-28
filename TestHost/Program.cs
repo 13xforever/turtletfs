@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using TsvnTfsProvider;
 
 namespace TestHost
 {
@@ -11,7 +10,7 @@ namespace TestHost
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new IssuesBrowser("some comment"));
+			Application.Run(new LaunchForm());
 		}
 	}
 }
