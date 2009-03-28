@@ -17,7 +17,7 @@ namespace TsvnTfsProvider
 			{
 				TfsOptionsSerializer.Deserialize(parameters);
 			}
-			catch (ArgumentException)
+			catch
 			{
 				result = false;
 			}

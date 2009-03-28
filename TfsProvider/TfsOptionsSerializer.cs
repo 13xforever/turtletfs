@@ -29,6 +29,7 @@ namespace TsvnTfsProvider
 
 		public static TfsProviderOptions Deserialize(string parameters)
 		{
+			if (string.IsNullOrEmpty(parameters)) return new TfsProviderOptions();
 			TfsProviderOptions options;
 			using (var reader = new StringReader(parameters))
 			{
