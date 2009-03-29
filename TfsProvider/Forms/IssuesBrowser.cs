@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
@@ -35,13 +36,21 @@ namespace TsvnTfsProvider.Forms
 
 		public string Comment { get { return commentBox.Text; } private set { commentBox.Text = value; } }
 
-		public IEnumerable<MyWorkItem> AssociatedWorkItems { get { return associatedWorkItems; } }
+		public string AssociatedWorkItems
+		{
+			get
+			{
+				var result = new StringBuilder();
+				foreach (var workItem in associatedWorkItems) result.AppendFormat("{0} {1}: {2}\n", workItem.type, workItem.id, workItem.title);
+				return result.ToString();
+			}
+		}
 
-		private void ConnectToTfs()
+		private WorkItemStore ConnectToTfs()
 		{
 			tfs = TeamFoundationServerFactory.GetServer(options.ServerName);
 			tfs.EnsureAuthenticated();
-			workItemStore = (WorkItemStore) tfs.GetService(typeof (WorkItemStore));
+			return (WorkItemStore) tfs.GetService(typeof (WorkItemStore));
 		}
 
 		private IEnumerable<MyWorkItem> GetWorkItems(TfsQuery query)
@@ -54,25 +63,25 @@ namespace TsvnTfsProvider.Forms
 			return myWorkItems;
 		}
 
-		private void PopulateQueriesComboBoxWithSavedQueries()
+		private void PopulateComboBoxWithSavedQueries(ComboBox comboBox)
 		{
 			Project project = workItemStore.Projects[options.ProjectName];
 			StoredQueryCollection storedQueries = project.StoredQueries;
 			foreach (StoredQuery query in storedQueries)
-				queryComboBox.Items.Add(new TfsQuery(query));
-			if (queryComboBox.Items.Count > 0) queryComboBox.SelectedIndex = 0;
+				comboBox.Items.Add(new TfsQuery(query));
+			if (comboBox.Items.Count > 0) comboBox.SelectedIndex = 0;
 		}
 
 		private void MyIssuesForm_Load(object sender, EventArgs e)
 		{
-			ConnectToTfs();
-			PopulateQueriesComboBoxWithSavedQueries();
+			workItemStore = ConnectToTfs();
+			PopulateComboBoxWithSavedQueries(queryComboBox);
 		}
 
-		private void PopulateWorkItemsList()
+		private void PopulateWorkItemsList(ListView listView, TfsQuery query)
 		{
-			listViewIssues.Items.Clear();
-			IEnumerable<MyWorkItem> workItems = GetWorkItems((TfsQuery) queryComboBox.SelectedItem);
+			listView.Items.Clear();
+			IEnumerable<MyWorkItem> workItems = GetWorkItems(query);
 			foreach (var workItem in workItems)
 			{
 				var lvi = new ListViewItem {Text = "", Tag = workItem,};
@@ -80,7 +89,7 @@ namespace TsvnTfsProvider.Forms
 				lvi.SubItems.Add(workItem.id.ToString());
 				lvi.SubItems.Add(workItem.state);
 				lvi.SubItems.Add(workItem.title);
-				listViewIssues.Items.Add(lvi);
+				listView.Items.Add(lvi);
 			}
 			foreach (ColumnHeader column in listViewIssues.Columns) column.Width = -1;
 		}
@@ -93,7 +102,7 @@ namespace TsvnTfsProvider.Forms
 
 		private void queryComboBox_SelectedValueChanged(object sender, EventArgs e)
 		{
-			PopulateWorkItemsList();
+			PopulateWorkItemsList(listViewIssues, (TfsQuery) queryComboBox.SelectedItem);
 		}
 
 		private void listViewIssues_ColumnClick(object sender, ColumnClickEventArgs e)

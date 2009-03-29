@@ -50,7 +50,7 @@ namespace TsvnTfsProvider
 
 		public string OnCommitFinished(IntPtr hParentWnd, string commonRoot, string[] pathList, string logMessage, int revision)
 		{
-			//спросить, надо ли пометить задачу Resolved
+			//Show form like "Would you like to mention this commit in Work Items' histories?"
 			return string.Empty;
 		}
 

@@ -21,7 +21,7 @@ namespace TsvnTfsProvider
 			               	};
 			using (XmlWriter writer = XmlWriter.Create(stringBuilder, settings))
 			{
-				if (writer == null) throw new OperationCanceledException("Cannot serizlize options.");
+				if (writer == null) throw new OperationCanceledException("Cannot serialize options.");
 				new XmlSerializer(typeof (TfsProviderOptions)).Serialize(writer, options);
 			}
 			return stringBuilder.ToString();
