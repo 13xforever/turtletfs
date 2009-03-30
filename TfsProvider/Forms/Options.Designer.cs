@@ -54,8 +54,8 @@
 			this.tfsAddressTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
 			this.tfsAddressTextBox.Location = new System.Drawing.Point(91, 13);
 			this.tfsAddressTextBox.Name = "tfsAddressTextBox";
-			this.tfsAddressTextBox.Size = new System.Drawing.Size(517, 20);
-			this.tfsAddressTextBox.TabIndex = 1;
+			this.tfsAddressTextBox.Size = new System.Drawing.Size(488, 20);
+			this.tfsAddressTextBox.TabIndex = 0;
 			this.tfsAddressTextBox.Text = "http://lit-department:8080/";
 			this.tfsAddressTextBox.WordWrap = false;
 			// 
@@ -67,7 +67,7 @@
 			this.projectComboBox.FormattingEnabled = true;
 			this.projectComboBox.Location = new System.Drawing.Point(91, 40);
 			this.projectComboBox.Name = "projectComboBox";
-			this.projectComboBox.Size = new System.Drawing.Size(488, 21);
+			this.projectComboBox.Size = new System.Drawing.Size(517, 21);
 			this.projectComboBox.TabIndex = 2;
 			// 
 			// label2
@@ -86,7 +86,7 @@
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelButton.Location = new System.Drawing.Point(532, 67);
 			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(75, 23);
+			this.cancelButton.Size = new System.Drawing.Size(76, 23);
 			this.cancelButton.TabIndex = 4;
 			this.cancelButton.Text = "Cancel";
 			this.cancelButton.UseVisualStyleBackColor = true;
@@ -98,7 +98,7 @@
 			this.okButton.Location = new System.Drawing.Point(451, 67);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
-			this.okButton.TabIndex = 5;
+			this.okButton.TabIndex = 3;
 			this.okButton.Text = "OK";
 			this.okButton.UseVisualStyleBackColor = true;
 			this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -106,10 +106,10 @@
 			// refreshProjectsButton
 			// 
 			this.refreshProjectsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.refreshProjectsButton.Location = new System.Drawing.Point(585, 38);
+			this.refreshProjectsButton.Location = new System.Drawing.Point(585, 11);
 			this.refreshProjectsButton.Name = "refreshProjectsButton";
 			this.refreshProjectsButton.Size = new System.Drawing.Size(23, 23);
-			this.refreshProjectsButton.TabIndex = 6;
+			this.refreshProjectsButton.TabIndex = 1;
 			this.refreshProjectsButton.Text = "↻";
 			this.refreshProjectsButton.UseVisualStyleBackColor = true;
 			this.refreshProjectsButton.Click += new System.EventHandler(this.refreshProjectsButton_Click);

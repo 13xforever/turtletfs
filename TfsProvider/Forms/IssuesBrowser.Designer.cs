@@ -50,7 +50,7 @@ namespace TsvnTfsProvider.Forms
 			this.buttonOk.Location = new System.Drawing.Point(680, 479);
 			this.buttonOk.Name = "buttonOk";
 			this.buttonOk.Size = new System.Drawing.Size(46, 23);
-			this.buttonOk.TabIndex = 0;
+			this.buttonOk.TabIndex = 2;
 			this.buttonOk.Text = "OK";
 			this.buttonOk.UseVisualStyleBackColor = true;
 			this.buttonOk.Click += new System.EventHandler(this.okButton_Click);
@@ -62,27 +62,27 @@ namespace TsvnTfsProvider.Forms
 			this.buttonCancel.Location = new System.Drawing.Point(732, 479);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 1;
+			this.buttonCancel.TabIndex = 3;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			// 
 			// listViewIssues
 			// 
 			this.listViewIssues.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			                                                                    | System.Windows.Forms.AnchorStyles.Left)
-			                                                                   | System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.listViewIssues.CheckBoxes = true;
 			this.listViewIssues.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			                                                                             	this.checkBoxColumn,
-			                                                                             	this.typeColumn,
-			                                                                             	this.idColumn,
-			                                                                             	this.stateColumn,
-			                                                                             	this.titleColumn});
+            this.checkBoxColumn,
+            this.typeColumn,
+            this.idColumn,
+            this.stateColumn,
+            this.titleColumn});
 			this.listViewIssues.FullRowSelect = true;
 			this.listViewIssues.Location = new System.Drawing.Point(12, 53);
 			this.listViewIssues.Name = "listViewIssues";
 			this.listViewIssues.Size = new System.Drawing.Size(795, 286);
-			this.listViewIssues.TabIndex = 2;
+			this.listViewIssues.TabIndex = 0;
 			this.listViewIssues.UseCompatibleStateImageBehavior = false;
 			this.listViewIssues.View = System.Windows.Forms.View.Details;
 			this.listViewIssues.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewIssues_ColumnClick);
@@ -118,12 +118,12 @@ namespace TsvnTfsProvider.Forms
 			// 
 			this.commentBox.AcceptsReturn = true;
 			this.commentBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-			                                                               | System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.commentBox.Location = new System.Drawing.Point(12, 370);
 			this.commentBox.Multiline = true;
 			this.commentBox.Name = "commentBox";
 			this.commentBox.Size = new System.Drawing.Size(795, 103);
-			this.commentBox.TabIndex = 3;
+			this.commentBox.TabIndex = 1;
 			// 
 			// label1
 			// 
@@ -137,13 +137,13 @@ namespace TsvnTfsProvider.Forms
 			// queryComboBox
 			// 
 			this.queryComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			                                                                  | System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.queryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.queryComboBox.FormattingEnabled = true;
 			this.queryComboBox.Location = new System.Drawing.Point(58, 10);
 			this.queryComboBox.Name = "queryComboBox";
 			this.queryComboBox.Size = new System.Drawing.Size(749, 21);
-			this.queryComboBox.TabIndex = 5;
+			this.queryComboBox.TabIndex = 4;
 			this.queryComboBox.SelectedValueChanged += new System.EventHandler(this.queryComboBox_SelectedValueChanged);
 			// 
 			// label2

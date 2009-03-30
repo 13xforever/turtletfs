@@ -22,7 +22,7 @@ namespace TsvnTfsProvider.Forms
 		private void okButton_Click(object sender, EventArgs e)
 		{
 			options.ServerName = tfsAddressTextBox.Text;
-			options.ProjectName = projectComboBox.SelectedText;
+			options.ProjectName = projectComboBox.Text;
 			Parameters = TfsOptionsSerializer.Serialize(options);
 		}
 
@@ -41,8 +41,9 @@ namespace TsvnTfsProvider.Forms
 			projectComboBox.Items.Clear();
 			foreach (Project project in workItemStore.Projects)
 				projectComboBox.Items.Add(project.Name);
-			int existingProjectIndex = projectComboBox.Items.IndexOf(options.ProjectName);
-			if (existingProjectIndex >= 0) projectComboBox.SelectedIndex = existingProjectIndex;
+			int existingProjectIndex = -1;
+			if (!string.IsNullOrEmpty(options.ProjectName)) existingProjectIndex = projectComboBox.Items.IndexOf(options.ProjectName);
+			projectComboBox.SelectedIndex = existingProjectIndex > 0 ? existingProjectIndex : 0;
 		}
 
 		private void refreshProjectsButton_Click(object sender, EventArgs e)
