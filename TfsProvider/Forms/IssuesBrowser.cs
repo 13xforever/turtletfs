@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.TeamFoundation.Client;
@@ -21,15 +22,8 @@ namespace TsvnTfsProvider.Forms
 			Comment = comment;
 			options = TfsOptionsSerializer.Deserialize(parameters);
 
-			int idColumnIndex = 2;
-			foreach (ColumnHeader header in listViewIssues.Columns)
-			{
-				if (header.Name == "ID")
-				{
-					idColumnIndex = header.Index;
-					break;
-				}
-			}
+			ColumnHeader idColumnHeader = listViewIssues.Columns.Cast<ColumnHeader>().FirstOrDefault(header => header.Name == "ID");
+			int idColumnIndex = idColumnHeader == null ? 2 : idColumnHeader.Index;
 			listViewColumnSorter = new ListViewColumnSorter(idColumnIndex);
 			listViewIssues.ListViewItemSorter = listViewColumnSorter;
 		}
@@ -55,20 +49,17 @@ namespace TsvnTfsProvider.Forms
 
 		private IEnumerable<MyWorkItem> GetWorkItems(TfsQuery query)
 		{
-			var myWorkItems = new List<MyWorkItem>();
 			var context = new Dictionary<string, string> {{"project", query.Query.Project.Name}};
-			WorkItemCollection wiCollection = workItemStore.Query(query.Query.QueryText, context);
-			foreach (WorkItem workItem in wiCollection)
-				myWorkItems.Add(new MyWorkItem {id = workItem.Id, state = workItem.State, title = workItem.Title, type = workItem.Type.Name});
-			return myWorkItems;
+			return (from WorkItem workItem in workItemStore.Query(query.Query.QueryText, context)
+					select new MyWorkItem(workItem.Id, workItem.State, workItem.Title, workItem.Type.Name)
+					).ToList();
 		}
 
 		private void PopulateComboBoxWithSavedQueries(ComboBox comboBox)
 		{
 			Project project = workItemStore.Projects[options.ProjectName];
 			StoredQueryCollection storedQueries = project.StoredQueries;
-			foreach (StoredQuery query in storedQueries)
-				comboBox.Items.Add(new TfsQuery(query));
+			foreach (StoredQuery query in storedQueries) comboBox.Items.Add(new TfsQuery(query));
 			if (comboBox.Items.Count > 0) comboBox.SelectedIndex = 0;
 		}
 
@@ -96,8 +87,8 @@ namespace TsvnTfsProvider.Forms
 
 		private void okButton_Click(object sender, EventArgs e)
 		{
-			foreach (ListViewItem lvi in listViewIssues.Items)
-				if (lvi.Checked) associatedWorkItems.Add((MyWorkItem) lvi.Tag);
+			foreach (ListViewItem lvi in listViewIssues.Items.Cast<ListViewItem>().Where(lvi => lvi.Checked))
+				associatedWorkItems.Add((MyWorkItem)lvi.Tag);
 		}
 
 		private void queryComboBox_SelectedValueChanged(object sender, EventArgs e)
@@ -137,6 +128,14 @@ namespace TsvnTfsProvider.Forms
 
 	public struct MyWorkItem
 	{
+		public MyWorkItem(int id, string state, string title, string type)
+		{
+			this.id = id;
+			this.state = state;
+			this.title = title;
+			this.type = type;
+		}
+
 		public int id;
 		public string state;
 		public string title;

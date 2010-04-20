@@ -35,14 +35,14 @@ namespace TsvnTfsProvider.Forms
 		{
 			string url = tfsAddressTextBox.Text;
 			if (!Uri.IsWellFormedUriString(url, UriKind.Absolute)) return;
-			TeamFoundationServer tfs = TeamFoundationServerFactory.GetServer(url);
+			var tfs = TeamFoundationServerFactory.GetServer(url);
 			tfs.EnsureAuthenticated();
-			var workItemStore = (WorkItemStore) tfs.GetService(typeof (WorkItemStore));
+			var workItemStore = (WorkItemStore)tfs.GetService(typeof (WorkItemStore));
 			projectComboBox.Items.Clear();
-			foreach (Project project in workItemStore.Projects)
-				projectComboBox.Items.Add(project.Name);
+			foreach (Project project in workItemStore.Projects) projectComboBox.Items.Add(project.Name);
 			int existingProjectIndex = -1;
-			if (!string.IsNullOrEmpty(options.ProjectName)) existingProjectIndex = projectComboBox.Items.IndexOf(options.ProjectName);
+			if (!string.IsNullOrEmpty(options.ProjectName))
+				existingProjectIndex = projectComboBox.Items.IndexOf(options.ProjectName);
 			projectComboBox.SelectedIndex = existingProjectIndex > 0 ? existingProjectIndex : 0;
 		}
 

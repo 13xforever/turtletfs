@@ -31,7 +31,6 @@ namespace TsvnTfsProvider
 			IComparer currentComparer = SortColumn == numericalColumn ? ObjectCompareAsNumbers : (IComparer)ObjectCompareAsText;
 			int compareResult = currentComparer.Compare(itemX.SubItems[SortColumn].Text, itemY.SubItems[SortColumn].Text);
 
-
 			if (Order == SortOrder.Ascending) return compareResult;
 			if (Order == SortOrder.Descending) return -compareResult;
 			return 0;
