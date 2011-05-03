@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace TsvnTfsProvider
+namespace TurtleTfs
 {
 	public static class TfsOptionsSerializer
 	{
@@ -14,16 +14,15 @@ namespace TsvnTfsProvider
 			var settings = new XmlWriterSettings
 			               	{
 			               		ConformanceLevel = ConformanceLevel.Auto,
-			               		Encoding = Encoding.UTF8,
+			               		Encoding = new UTF8Encoding(false),
 			               		Indent = false,
 			               		NewLineOnAttributes = false,
 			               		OmitXmlDeclaration = true,
 			               	};
+			var namespaces = new XmlSerializerNamespaces();
+			namespaces.Add("","");
 			using (var writer = XmlWriter.Create(stringBuilder, settings))
-			{
-				if (writer == null) throw new OperationCanceledException("Cannot serialize options.");
-				new XmlSerializer(typeof (TfsProviderOptions)).Serialize(writer, options);
-			}
+				new XmlSerializer(typeof (TfsProviderOptions)).Serialize(writer, options, namespaces);
 			return stringBuilder.ToString();
 		}
 

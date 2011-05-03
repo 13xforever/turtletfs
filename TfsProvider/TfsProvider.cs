@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Interop.BugTraqProvider;
-using TsvnTfsProvider.Forms;
+using TurtleTfs.Forms;
 
-namespace TsvnTfsProvider
+namespace TurtleTfs
 {
 	[ComVisible(true), Guid("75971BA7-A422-4100-89E4-79E9FC56C699"), ClassInterface(ClassInterfaceType.None)]
 	public class TfsProvider : IBugTraqProvider2

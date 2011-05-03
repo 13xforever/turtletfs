@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 
-namespace TsvnTfsProvider.Forms
+namespace TurtleTfs.Forms
 {
 	public static class FormLauncher
 	{

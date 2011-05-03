@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Windows.Forms;
 
-namespace TsvnTfsProvider
+namespace TurtleTfs
 {
 	public class ListViewColumnSorter: IComparer
 	{

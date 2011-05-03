@@ -1,4 +1,4 @@
-﻿namespace TsvnTfsProvider.Forms
+﻿namespace TurtleTfs.Forms
 {
 	partial class Options
 	{

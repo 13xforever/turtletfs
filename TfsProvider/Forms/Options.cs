@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
-namespace TsvnTfsProvider.Forms
+namespace TurtleTfs.Forms
 {
 	public partial class Options : Form
 	{

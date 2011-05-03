@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using TsvnTfsProvider.Forms;
+using TurtleTfs.Forms;
 
 namespace TestHost
 {
